@@ -39,7 +39,7 @@ namespace CrypticCombatLogParser
             {
                 fileName = ofdOpenFile.FileName;
                 dgLog.DataSource = combatLog.loadData(fileName);
-                cmbPlayers.DataSource = combatLog.ownerList();
+                cmbPlayers.DataSource = combatLog.ownerList();             
             }            
             
         }

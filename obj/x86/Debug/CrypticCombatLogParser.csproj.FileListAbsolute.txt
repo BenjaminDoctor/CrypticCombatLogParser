@@ -7,3 +7,12 @@ C:\Users\BDoctor\documents\visual studio 2010\Projects\CrypticCombatLogParser\ob
 C:\Users\BDoctor\documents\visual studio 2010\Projects\CrypticCombatLogParser\obj\x86\Debug\CrypticCombatLogParser.exe
 C:\Users\BDoctor\documents\visual studio 2010\Projects\CrypticCombatLogParser\obj\x86\Debug\CrypticCombatLogParser.pdb
 C:\Users\BDoctor\documents\visual studio 2010\Projects\CrypticCombatLogParser\obj\x86\Debug\CrypticCombatLogParser.Form1.resources
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Debug\CrypticCombatLogParser.exe
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Debug\CrypticCombatLogParser.pdb
+C:\Users\BDoctor\CrypticCombatLogParser\bin\Debug\CrypticCombatLogParser.exe
+C:\Users\BDoctor\CrypticCombatLogParser\bin\Debug\CrypticCombatLogParser.pdb
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Debug\CrypticCombatLogParser.Form1.resources
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Debug\CrypticCombatLogParser.Properties.Resources.resources
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Debug\GenerateResource.write.1.tlog

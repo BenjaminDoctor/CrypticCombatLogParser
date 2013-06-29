@@ -97,6 +97,8 @@ namespace CrypticCombatLogParser
             String[] c = {"Owner","IOwner"};
 
             DataView view = new DataView(dataTable);
+            view.Sort = "Owner";
+
             DataTable owners = view.ToTable(true, c);
 
             String[] o = new String[owners.Rows.Count];
@@ -105,23 +107,17 @@ namespace CrypticCombatLogParser
             String p = null;
 
             foreach (DataRow d in owners.Rows)
-            {
-                
-
+            {         
                 if (d[1].ToString().Trim() != "")
                 {
                     p = d[1].ToString().Substring(0, 1);
-                }
-               
-                if (p == "P")
-                {
-                    o[y] = d[0].ToString();
-                    y++;
-                }
-                else
-                {
-                    y++;
-                }
+                   
+                    if (p == "P")
+                    {
+                        o[y] = d[0].ToString();
+                        y++;
+                    }
+                }               
             }
 
             return o;
