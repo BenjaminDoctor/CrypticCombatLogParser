@@ -43,5 +43,11 @@ namespace CrypticCombatLogParser
             }            
             
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //combatLog.dps();
+            txtOutput.Text = combatLog.getStats(cmbPlayers.Text );
+        }
     }
 }

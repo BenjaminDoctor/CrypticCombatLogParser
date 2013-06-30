@@ -1,0 +1,9 @@
+C:\Users\BDoctor\CrypticCombatLogParser\bin\Release\CrypticCombatLogParser.exe
+C:\Users\BDoctor\CrypticCombatLogParser\bin\Release\CrypticCombatLogParser.pdb
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Release\CrypticCombatLogParser.Form1.resources
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Release\CrypticCombatLogParser.Properties.Resources.resources
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Release\CrypticCombatLogParser.exe
+C:\Users\BDoctor\CrypticCombatLogParser\obj\x86\Release\CrypticCombatLogParser.pdb

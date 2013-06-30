@@ -94,6 +94,7 @@ namespace CrypticCombatLogParser
 
         public String[] ownerList()
         { 
+            //The columns to return from the dataTable
             String[] c = {"Owner","IOwner"};
 
             DataView view = new DataView(dataTable);
@@ -112,6 +113,7 @@ namespace CrypticCombatLogParser
                 {
                     p = d[1].ToString().Substring(0, 1);
                    
+                    //Determine if the row if for a Player
                     if (p == "P")
                     {
                         o[y] = d[0].ToString();
@@ -121,6 +123,73 @@ namespace CrypticCombatLogParser
             }
 
             return o;
+        }
+
+        public string getStats(String player)
+        {
+            
+            DataRow[] result = dataTable.Select("Owner = '" + player + "'");
+            double damage = 0;
+            int swings = 0;
+            int crits = 0;
+            TimeSpan combatTime = new TimeSpan();
+            string dateTimeFormat =  "yy:MM:dd:H:m:s.f";
+            DateTime previousTime = new DateTime();
+            
+            //Get the start point for time
+            DataRow firstTime = result[0];
+            previousTime = DateTime.ParseExact(firstTime[0].ToString(),dateTimeFormat,null);
+
+            //Set the threshhold of time between events to signify end of combat
+            TimeSpan threshhold = new TimeSpan(0,0,10);
+            TimeSpan ts = new TimeSpan();
+
+            foreach (DataRow r in result)
+            {
+                //Sum of damage.
+                if (Double.Parse(r[11].ToString()) > 0)
+                {
+                    swings++;
+                    damage += Double.Parse(r[11].ToString());
+
+                    if (r[10].ToString() == "Critical")
+                    {
+                        crits++;
+                    }
+                }
+
+                ts = DateTime.ParseExact(r[0].ToString(), dateTimeFormat, null) - previousTime;
+
+                if (threshhold > ts)
+                {
+                    combatTime = combatTime.Add(ts);
+                    previousTime = DateTime.ParseExact(r[0].ToString(), dateTimeFormat, null);
+                }
+                else
+                {
+                    previousTime = DateTime.ParseExact(r[0].ToString(), dateTimeFormat, null);
+                }
+                
+            }
+
+            double time = combatTime.TotalSeconds;
+
+            String msg;
+            msg = "Damage: " + damage.ToString() + "\r\n";
+            msg += "Combat Time: " + combatTime.ToString() + "\r\n";
+            msg += "Combat Time in Seconds: " + combatTime.TotalSeconds.ToString() + "\r\n";
+            msg += "Combat Time converted: " + time.ToString() + "\r\n";
+
+            double dps = damage / time;
+            msg += "DPS: " + dps.ToString("F");
+            msg += "\r\nSwings: " + swings.ToString();
+            msg += "\r\nCrits: " + crits.ToString();
+
+            double critPercent = ((double)crits / swings);
+            msg += "\r\nCrit Percent: " + critPercent.ToString("P");
+
+            return msg;
+
         }
 
         public CombatLog()
