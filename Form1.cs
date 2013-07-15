@@ -38,8 +38,8 @@ namespace CrypticCombatLogParser
             if (result == DialogResult.OK)
             {
                 fileName = ofdOpenFile.FileName;
-                dgLog.DataSource = combatLog.loadData(fileName);
-                cmbPlayers.DataSource = combatLog.ownerList();             
+                dgLog.DataSource = combatLog.getDataTable(fileName);
+                cmbPlayers.DataSource = combatLog.getOwnerList();             
             }            
             
         }

@@ -12,6 +12,12 @@ namespace CrypticCombatLogParser
     class CombatLog
     {
         private DataTable dataTable = new DataTable();
+        private StreamReader sr;
+
+        public CombatLog()
+        {
+            createTable();
+        }
 
         private void createTable()
         {
@@ -31,68 +37,128 @@ namespace CrypticCombatLogParser
 
         }
 
-        public DataTable loadData(String fileName)
+        public void loadData(String fileName)
         {
-            StreamReader sr = null;
-            
             try
             {
-                sr = new StreamReader(fileName);
-
-                while (!sr.EndOfStream)
-                {
-                    String line = sr.ReadLine();
-                    String[] row = line.Split(',');
-
-                    dataTable.Rows.Add();
-
-                    int tableCount = dataTable.Rows.Count - 1;
-
-                    for(int i = 0; i < row.Count() + 1; i++)
-                    {
-                        if (i == 0)
-                        {
-                            //The first comma include the date and owner, so that needs to be split apart
-                            dataTable.Rows[tableCount][0] = Regex.Split(row[i], "::")[0];
-                            dataTable.Rows[tableCount][1] = Regex.Split(row[i], "::")[1];
-                            i = 1;
-                        }
-                        else
-                        {
-                            dataTable.Rows[tableCount][i] = row[i - 1];
-
-                            //If you are too far away the combat log will return nulls for some fields
-                            //If owner is null then use source or target
-                            if (dataTable.Rows[tableCount][2] == null && row[2] != null )
-                            {
-                                dataTable.Rows[tableCount][2] = row[2];
-                            }
-                            else if (dataTable.Rows[tableCount][2] == null && row[4] != null)
-                            {
-                                dataTable.Rows[tableCount][2] = row[4];
-                            }
-                        }
-                    }
-
-                }
+                openConnectionToFile(fileName);
+                addRowsToDataTable();
             }
-            catch(IOException e)
+            catch(Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
             finally
             {
-                if (sr != null)
+                sr.Close();
+                sr.Dispose();
+            }
+        }
+
+        private void openConnectionToFile(String fileName)
+        {
+            sr = new StreamReader(fileName);
+        }
+
+        private void addRowsToDataTable()
+        {
+            while (isNotEndOfFile())
+            {
+                string rowFromFile = getRowFromFile();
+                rowFromFile = rowFromFile.Replace("::", ",");
+
+                string[] rowArray = rowFromFile.Split(',');
+                
+                DataRow dataRow = convertStringToDataRow(rowArray); 
+               
+                dataTable.Rows.Add(dataRow);
+            }
+        }
+
+        private Boolean isNotEndOfFile()
+        {
+            if (!sr.EndOfStream)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }            
+        }
+
+        private string getRowFromFile()
+        {
+            String line = sr.ReadLine();
+            
+            return line;
+        }
+
+        private string replaceDoubleColons(string s)
+        {
+            s.Replace("::", ",");
+
+            return s;
+        }
+
+        private DataRow convertStringToDataRow(string[] rowFromData)
+        {
+            DataRow dataRow = dataTable.NewRow();
+            dataRow.ItemArray = rowFromData;
+
+            return dataRow;
+        }
+
+        private void parseRow(string[] rowFromFile)
+        {
+            int tableCount = dataTable.Rows.Count - 1;
+
+            for (int i = 0; i < rowFromFile.Count() + 1; i++)
+            {
+                if (isFirstColumn(i))
                 {
-                    sr.Close();
-                    sr.Dispose();
+                    //The first comma include the date and owner, so that needs to be split apart
+                    dataTable.Rows[tableCount][0] = Regex.Split(rowFromFile[i], "::")[0];
+                    dataTable.Rows[tableCount][1] = Regex.Split(rowFromFile[i], "::")[1];
+                    i = 1;
+                }
+                else
+                {
+                    dataTable.Rows[tableCount][i] = rowFromFile[i - 1];
+
+                    //If you are too far away the combat log will return nulls for some fields
+                    //If owner is null then use source or target
+                    if (dataTable.Rows[tableCount][2] == null && rowFromFile[2] != null)
+                    {
+                        dataTable.Rows[tableCount][2] = rowFromFile[2];
+                    }
+                    else if (dataTable.Rows[tableCount][2] == null && rowFromFile[4] != null)
+                    {
+                        dataTable.Rows[tableCount][2] = rowFromFile[4];
+                    }
                 }
             }
+        }
+
+        private Boolean isFirstColumn(int i)
+        {
+            if (i == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        public DataTable getDataTable(String fileName)
+        {
+            loadData(fileName);
 
             return dataTable;
         }
-
-        public String[] ownerList()
+        public String[] getOwnerList()
         { 
             //The columns to return from the dataTable
             String[] c = {"Owner","IOwner"};
@@ -190,11 +256,6 @@ namespace CrypticCombatLogParser
 
             return msg;
 
-        }
-
-        public CombatLog()
-        {
-            createTable();
         }
     }
 }
